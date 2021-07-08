@@ -11,14 +11,32 @@ const LOG_EVENT_MONSTER_ATTACK = 'PLAYER_STRONG_ATTACK ';
 const LOG_EVENT_PLAYER_HEAL= 'PLAYER_HEAL ';
 const LOG_EVENT_GAME_OVER= 'GAME_OVER ';
 
-const enteredValue = prompt('Your max life?.','100') ;
 
-let chosenMaxLife = parseInt(enteredValue);
+function getMaxLifeValues(){
+  const enteredValue = prompt('Your max life?.','100') ;
+
+  const parsedValue = parseInt(enteredValue);
+  if(isNaN(parsedValue) || chosenMaxLife<=0){
+    throw {message: 'dfghjkl'};
+  }
+return parsedValue;
+}
+
+try {
+  let chosenMaxLife =  getMaxLifeValues();
+} catch (error) {
+  console.log(error)
+  chosenMaxLife =100;
+  alert('aaaaaa')
+  throw error;
+}finally {
+  
+}
+
+
 let battleLog = [];
 
-if(isNaN(chosenMaxLife) || chosenMaxLife<=0){
-  chosenMaxLife = 100;
-}
+
 let currentMonsterHealth = chosenMaxLife;
 let currentPlayerHealth = chosenMaxLife;
 let hasBonusLife = true;
@@ -119,15 +137,15 @@ function endRound(){
 }
 
 function attackMonster(mode){
-    let maxDamage;
-    let logEvent;
-  if(mode === MODE_ATTACK){
+    const maxDamage = mode === MODE_ATTACK ? ATTACK_VALUE : STRONG_ATTACK_VALUE;
+    const logEvent = mode === MODE_ATTACK ? LOG_EVENT_PLAYER_ATTACK :LOG_EVENT_PLAYER_STRONG_ATTACK;
+  /* if(mode === MODE_ATTACK){
     maxDamage = ATTACK_VALUE;
     logEvent = LOG_EVENT_PLAYER_ATTACK
   } else if(mode === MODE_STRONG_ATTACK){
     maxDamage = STRONG_ATTACK_VALUE;
     logEvent = LOG_EVENT_PLAYER_STRONG_ATTACK
-  }
+  } */
   const damage = dealMonsterDamage(maxDamage);
   currentMonsterHealth -= damage;
   writeToLog(logEvent, damage, currentMonsterHealth,currentPlayerHealth);
@@ -159,6 +177,9 @@ function healPlayerHandler(){
 }
 
 function printLogHandler(){
+  for (let i =0;  i < 3; i++){
+    console.log('------------')
+  }
   console.log(battleLog)
 }
 
@@ -166,3 +187,4 @@ attackBtn.addEventListener('click', attackHandler);
 strongAttackBtn.addEventListener('click', strongAttackHandler)
 healBtn.addEventListener('click', healPlayerHandler)
 logBtn.addEventListener('click', printLogHandler)
+resBtn.addEventListener('click', reset)

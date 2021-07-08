@@ -6,6 +6,7 @@ const attackBtn = document.getElementById('attack-btn');
 const strongAttackBtn = document.getElementById('strong-attack-btn');
 const healBtn = document.getElementById('heal-btn');
 const logBtn = document.getElementById('log-btn');
+const resBtn = document.getElementById('res-btn');
 
 function adjustHealthBars(maxLife) {
   monsterHealthBar.max = maxLife;
